@@ -25,7 +25,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "usart.h"
+#include "iwdg.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -68,6 +69,11 @@ const osThreadAttr_t Task_PrioLow_attributes = {
   .stack_size = 128 * 4,
   .priority = (osPriority_t) osPriorityLow,
 };
+/* Definitions for Task_Timer */
+osTimerId_t Task_TimerHandle;
+const osTimerAttr_t Task_Timer_attributes = {
+  .name = "Task_Timer"
+};
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -75,8 +81,9 @@ const osThreadAttr_t Task_PrioLow_attributes = {
 /* USER CODE END FunctionPrototypes */
 
 void StartDefaultTask(void *argument);
-void TaskHigh_200ms(void *argument);
-void TaskLow_500ms(void *argument);
+void RtosTask_High(void *argument);
+void RtosTask_Low(void *argument);
+void task_timer_callback(void *argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -98,6 +105,10 @@ void MX_FREERTOS_Init(void) {
   /* add semaphores, ... */
   /* USER CODE END RTOS_SEMAPHORES */
 
+  /* Create the timer(s) */
+  /* creation of Task_Timer */
+  Task_TimerHandle = osTimerNew(task_timer_callback, osTimerPeriodic, NULL, &Task_Timer_attributes);
+
   /* USER CODE BEGIN RTOS_TIMERS */
   /* start timers, add new ones, ... */
   /* USER CODE END RTOS_TIMERS */
@@ -111,10 +122,10 @@ void MX_FREERTOS_Init(void) {
   defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
 
   /* creation of Task_PrioHigh */
-  Task_PrioHighHandle = osThreadNew(TaskHigh_200ms, NULL, &Task_PrioHigh_attributes);
+  Task_PrioHighHandle = osThreadNew(RtosTask_High, NULL, &Task_PrioHigh_attributes);
 
   /* creation of Task_PrioLow */
-  Task_PrioLowHandle = osThreadNew(TaskLow_500ms, NULL, &Task_PrioLow_attributes);
+  Task_PrioLowHandle = osThreadNew(RtosTask_Low, NULL, &Task_PrioLow_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -144,40 +155,53 @@ void StartDefaultTask(void *argument)
   /* USER CODE END StartDefaultTask */
 }
 
-/* USER CODE BEGIN Header_TaskHigh_200ms */
+/* USER CODE BEGIN Header_RtosTask_High */
 /**
 * @brief Function implementing the Task_PrioHigh thread.
 * @param argument: Not used
 * @retval None
 */
-/* USER CODE END Header_TaskHigh_200ms */
-void TaskHigh_200ms(void *argument)
+/* USER CODE END Header_RtosTask_High */
+void RtosTask_High(void *argument)
 {
-  /* USER CODE BEGIN TaskHigh_200ms */
+  /* USER CODE BEGIN RtosTask_High */
+  HAL_IWDG_Refresh(&hiwdg);
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+    HAL_UART_Transmit(&huart1, (uint8_t*) "high running.\n", 14, 10);
+    HAL_IWDG_Refresh(&hiwdg);
+    osDelay(500);
   }
-  /* USER CODE END TaskHigh_200ms */
+  /* USER CODE END RtosTask_High */
 }
 
-/* USER CODE BEGIN Header_TaskLow_500ms */
+/* USER CODE BEGIN Header_RtosTask_Low */
 /**
 * @brief Function implementing the Task_PrioLow thread.
 * @param argument: Not used
 * @retval None
 */
-/* USER CODE END Header_TaskLow_500ms */
-void TaskLow_500ms(void *argument)
+/* USER CODE END Header_RtosTask_Low */
+void RtosTask_Low(void *argument)
 {
-  /* USER CODE BEGIN TaskLow_500ms */
+  /* USER CODE BEGIN RtosTask_Low */
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+    HAL_UART_Transmit(&huart1, (uint8_t*) "low running.\n", 13, 10);
+    HAL_IWDG_Refresh(&hiwdg);
+    osDelay(800);
   }
-  /* USER CODE END TaskLow_500ms */
+  /* USER CODE END RtosTask_Low */
+}
+
+/* task_timer_callback function */
+void task_timer_callback(void *argument)
+{
+  /* USER CODE BEGIN task_timer_callback */
+
+  /* USER CODE END task_timer_callback */
 }
 
 /* Private application code --------------------------------------------------*/

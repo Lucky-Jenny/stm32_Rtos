@@ -1,2 +1,8 @@
-Debug/
+
 .settings/
+.vscode/
+
+MDK-ARM/DebugCOnfig/
+MDK-ARM/RTE/
+MDK-ARM/stm32_Rtos/
+

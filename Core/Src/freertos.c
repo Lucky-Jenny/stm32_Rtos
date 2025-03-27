@@ -25,8 +25,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "usart.h"
 #include "iwdg.h"
+#include "Os_Cyclic.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -67,7 +67,7 @@ osThreadId_t Task_PrioLowHandle;
 const osThreadAttr_t Task_PrioLow_attributes = {
   .name = "Task_PrioLow",
   .stack_size = 128 * 4,
-  .priority = (osPriority_t) osPriorityLow,
+  .priority = (osPriority_t) osPriorityNormal,
 };
 /* Definitions for Task_Timer */
 osTimerId_t Task_TimerHandle;
@@ -169,9 +169,9 @@ void RtosTask_High(void *argument)
   /* Infinite loop */
   for(;;)
   {
-    HAL_UART_Transmit(&huart1, (uint8_t*) "high running.\n", 14, 10);
+    Os_Cyclic_HighPriTask();
     HAL_IWDG_Refresh(&hiwdg);
-    osDelay(500);
+    osDelay(1);
   }
   /* USER CODE END RtosTask_High */
 }
@@ -189,9 +189,9 @@ void RtosTask_Low(void *argument)
   /* Infinite loop */
   for(;;)
   {
-    HAL_UART_Transmit(&huart1, (uint8_t*) "low running.\n", 13, 10);
+    Os_Cyclic_LowPriTask();
     HAL_IWDG_Refresh(&hiwdg);
-    osDelay(800);
+    osDelay(1);
   }
   /* USER CODE END RtosTask_Low */
 }

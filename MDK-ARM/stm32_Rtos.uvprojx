@@ -81,7 +81,7 @@
           </BeforeMake>
           <AfterMake>
             <RunUserProg1>0</RunUserProg1>
-            <RunUserProg2>1</RunUserProg2>
+            <RunUserProg2>0</RunUserProg2>
             <UserProg1Name></UserProg1Name>
             <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
@@ -311,7 +311,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>4</Optim>
+            <Optim>2</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>1</OneElfS>
@@ -336,7 +336,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F103xB</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../Drivers/STM32F1xx_HAL_Driver/Inc;../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM3;../Drivers/CMSIS/Device/ST/STM32F1xx/Include;../Drivers/CMSIS/Include</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32F1xx_HAL_Driver/Inc;../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM3;../Drivers/CMSIS/Device/ST/STM32F1xx/Include;../Drivers/CMSIS/Include;..\Os</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -386,9 +386,6 @@
               <FilePath>startup_stm32f103xb.s</FilePath>
             </File>
           </Files>
-        </Group>
-        <Group>
-          <GroupName>::CMSIS</GroupName>
         </Group>
         <Group>
           <GroupName>Application/User/Core</GroupName>
@@ -594,6 +591,44 @@
               <FilePath>../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM3/port.c</FilePath>
             </File>
           </Files>
+        </Group>
+        <Group>
+          <GroupName>Os</GroupName>
+          <Files>
+            <File>
+              <FileName>Os_Cyclic.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Os\Os_Cyclic.c</FilePath>
+            </File>
+            <File>
+              <FileName>Os_Cyclic.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Os\Os_Cyclic.h</FilePath>
+            </File>
+            <File>
+              <FileName>Os_Cyclic_Cfg.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Os\Os_Cyclic_Cfg.h</FilePath>
+            </File>
+            <File>
+              <FileName>Os_Task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Os\Os_Task.c</FilePath>
+            </File>
+            <File>
+              <FileName>Os_Task.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Os\Os_Task.h</FilePath>
+            </File>
+            <File>
+              <FileName>Rte_Mac.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Os\Rte_Mac.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>::CMSIS</GroupName>
         </Group>
       </Groups>
     </Target>
